@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 
 namespace ContractManager3.Models
 {
@@ -11,6 +14,8 @@ namespace ContractManager3.Models
 
     public class ContractHour
     {
+       
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Transaction_ID { get; set; }
@@ -37,6 +42,15 @@ namespace ContractManager3.Models
         public virtual Property Property { get; set; }
         public virtual ContractDetail ContractDetail { get; set; }
 
+        // Fields to hold details of the variable days linked to contracts / Prpoerties
+        public int CurrentYear { get; set; }
+        public bool LeapYear { get; set; }
+        public String Xmasday { get; set; }
+        public String Boxingday { get; set; }
+        public String Day365 { get; set; }
+        public String Day366 { get; set; }
+
+        // Fields to hold details of the Annual hours linked to contracts / Prpoerties
         public double Annualhours { get; set; }
         public double Dayhours365 { get; set; }
         public double Dayhours366 { get; set; }
@@ -46,53 +60,59 @@ namespace ContractManager3.Models
         public double GoodFridayhours { get; set; }
         public double BankholidayHours { get; set; }
 
-
+        // Check to ensure that calculation of hours starts from zero base.
+        private int count = 0;
 
         // Calculate the Weekly Hours of a Property that also Pays for Bank Holidays (365 days)
-        public double Calcweeklyhours(double Weeklyhours, WeekDay Weekday)
+        public double Calcweeklyhours()
         {
-            var DB = new ApplicationDbContext();
 
-            foreach (var contract_id in DB.ContractHours)
+            var db = new ApplicationDbContext();
+            foreach (var contract_id in db.ContractHours)
             {
-                foreach (var property_id in DB.ContractHours)
+                foreach (var property_id in db.ContractHours)
                 {
-                    foreach (var weekday in DB.ContractHours)
-                    {
-                        if (Weeklyhours == 0)
-                        {
-                            Weeklyhours += DailyHours;
-                        }
-                        else Weeklyhours = DailyHours;
-                    }
-                }
 
+                    foreach (var weekday in db.ContractHours)
+                    {
+                        if (count == 0)
+                        {
+                            WeeklyHours = 0;
+                            WeeklyHours += DailyHours;
+                            count++;
+                        }
+                        else WeeklyHours += DailyHours;
+                        count++;
+                    }
+                //db.ContractHours.Add(WeeklyHours);
+                db.SaveChanges();               
+                }
+               
             }
-            return Weeklyhours;
+            return WeeklyHours;
+            
+
         }
 
-
+        
 
 
         // Calculate the Annual Hours of a contract that also Pays for Bank Holidays (365 days)
-
-
-
         public double CalcAnnualhours(double Weeklyhours, bool LeapYear)
         {
 
             if (LeapYear == false)
             {
                 // Calculate 365 days. the daily hours is for day 365.(non Leap year)
-                var DB = new ApplicationDbContext();
-                foreach (var property_id in DB.ContractHours)
+                var db = new ApplicationDbContext();
+                foreach (var property_id in db.ContractHours)
                     Annualhours = (Weeklyhours * 52 + DailyHours);
             }
             else
             {
                 // Calculate 365 days. the daily hours is for day 365.(non Leap year)
-                var DB = new ApplicationDbContext();
-                foreach (var property_id in DB.ContractHours)
+                var db = new ApplicationDbContext();
+                foreach (var property_id in db.ContractHours)
                     Annualhours = (Weeklyhours * 52 + DailyHours);
 
             }
@@ -110,10 +130,10 @@ namespace ContractManager3.Models
 
         // Calculate if it is a leap yearCurrent Year
 
-        public bool LeapYear(int CurrentYear)
+        public bool GetLeapYear(int CurrentYear)
         {
             if (DateTime.IsLeapYear(CurrentYear))
-                return true;
+            return true;
             else return false;
         }
 
@@ -133,7 +153,7 @@ namespace ContractManager3.Models
                 .Select(e => e.DailyHours);
             }
 
-            return Dayhours365;
+            return Dayhours366;
         }
 
         // Calculate what day the Leap year falls on
@@ -165,7 +185,7 @@ namespace ContractManager3.Models
         }
 
         // Calculate the Hours related to the Leap year (day 366)
-        public double xmasdayhours(int Contract_id, int Property_id, String xmasday)
+        public double Xmasdayhours(int Contract_id, int Property_id, String xmasday)
         {
             using (var db = new ApplicationDbContext())
             {
@@ -188,7 +208,7 @@ namespace ContractManager3.Models
         {
             using (var db = new ApplicationDbContext())
             {
-                var BoxingDayHours = db.ContractHours.Where(e => e.Weekday.ToString() == boxingday && e.Contract_ID == Contract_id && e.Property_ID == Contract_id)
+                var BoxingDayHours = db.ContractHours.Where(e => e.Weekday.ToString() == boxingday && e.Contract_ID == Contract_id && e.Property_ID == Property_id)
                 .Select(e => e.DailyHours);
             }
 
@@ -201,7 +221,7 @@ namespace ContractManager3.Models
         {
             using (var db = new ApplicationDbContext())
             {
-                var MondayDayHours = db.ContractHours.Where(e => e.Weekday.ToString() == "Mon" && e.Contract_ID == Contract_id && e.Property_ID == Contract_id)
+                var MondayDayHours = db.ContractHours.Where(e => e.Weekday.ToString() == "Mon" && e.Contract_ID == Contract_id && e.Property_ID == Property_id)
                 .Select(e => e.DailyHours);
 
             }
@@ -214,8 +234,8 @@ namespace ContractManager3.Models
         {
             using (var db = new ApplicationDbContext())
             {
-                var GoodFridayhours = db.ContractHours.Where(e => e.Weekday.ToString() == "Fri" && e.Contract_ID == Contract_id && e.Property_ID == Contract_id)
-                .Select(e => e.DailyHours);
+                var MondayDayHours = db.ContractHours.Where(e => e.Weekday.ToString() == "Fri" && e.Contract_ID == Contract_id && e.Property_ID == Property_id)
+               .Select(e => e.DailyHours);
             }
 
             return GoodFridayhours;

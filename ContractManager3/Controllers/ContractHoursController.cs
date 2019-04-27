@@ -128,5 +128,59 @@ namespace ContractManager3.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        // POST: Calc
+        [HttpPost]
+        public ActionResult CalcVariableDays(ContractHour calc)
+        {
+            if (ModelState.IsValid)
+            {
+                // No errors added to ModelState
+                // Get a value for the current year.(int)
+                calc.CurrentYear = calc.GetCurrentYear();
+                //Calculate if it is a leap year. (Bool)
+                calc.LeapYear = calc.GetLeapYear(calc.CurrentYear);
+                //Calculate what day xmas falls on in the current year.(String)
+                calc.Xmasday = calc.Calcxmasday(calc.CurrentYear);
+                //Calculate what day St Stephens day falls on in the current year (Day 366).(String)   
+                calc.Boxingday = calc.Calcboxingday(calc.CurrentYear);
+                //Calculate what day New Years falls on in the current year (Day 365).(String)  
+                calc.Day365 = calc.Calc365day(calc.CurrentYear);
+                //Calculate what day is after New Years day falls on in the current year (Day 366).(String)   
+                calc.Day366 = calc.Calc366day(calc.CurrentYear);
+
+                return RedirectToAction("Answer", calc);
+
+            }
+            // Show the form again (for correction)
+            return View(calc);
+        }
+
+
+        //POST: Calc
+        [HttpPost]
+        public ActionResult CalcHours(ContractHour hours)
+        {
+            if (ModelState.IsValid)
+            {
+                //No errors added to ModelState
+                // Get a value for the current year.(int)
+                hours.Calcweeklyhours();
+                hours.CalcAnnualhours(hours.WeeklyHours, hours.LeapYear);
+                hours.CalcBankHolidayHours();
+                hours.Dayhours365 = hours.Calc365dayhours(hours.Contract_ID, hours.Property_ID, hours.Day365);
+                hours.Calc366dayhours(hours.Contract_ID, hours.Property_ID, hours.Day366);
+                hours.Xmasdayhours(hours.Contract_ID, hours.Property_ID, hours.Xmasday);
+                hours.CalcBoxingdayhours(hours.Contract_ID, hours.Property_ID, hours.Boxingday);
+                hours.CalcMondayhours(hours.Contract_ID, hours.Property_ID);
+                hours.GoodFridayhours = hours.CalcGoodFridayhours(hours.Contract_ID, hours.Property_ID);
+            }
+                return View(hours);
+        }
+            
+           
     }
 }
+
+

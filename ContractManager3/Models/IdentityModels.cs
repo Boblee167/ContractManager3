@@ -1,9 +1,8 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ContractManager3.Models
 {
@@ -26,7 +25,6 @@ namespace ContractManager3.Models
         public DbSet<ContractDetail> ContractDetails { get; set; }
         public DbSet<ContractHour> ContractHours { get; set; }
 
-                       
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

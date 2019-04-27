@@ -72,17 +72,15 @@ namespace ContractManager3.Models
 
         //Navigation Property
         public virtual Supplier Supplier { get; set; }
-
-
+        
 
         // Methods
         // Calculate the Annual Cost of the Contract by Property this is day 365
         public Double YearlyCost = 0;
 
-        public double CalcYearlyCost(int Contract_id, int Property_id, String Calc365day)
+        public double CalcYearlyCost()
         {
             var db = new ApplicationDbContext();
-
 
             return YearlyCost;
         }
