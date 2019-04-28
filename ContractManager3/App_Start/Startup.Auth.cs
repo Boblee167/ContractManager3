@@ -1,13 +1,13 @@
-﻿using System;
+﻿using ContractManager3.Models;
+using ContractManager3.Provider;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
-using Owin;
-using ContractManager3.Models;
 using Microsoft.Owin.Security.OAuth;
-using ContractManager3.Provider;
+using Owin;
+using System;
 
 namespace ContractManager3
 {
@@ -85,6 +85,8 @@ namespace ContractManager3
                 app.UseOAuthBearerTokens(OAuthOptions);
                 app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
             }
-       
+    
+        
+   
     }
-}
+}   

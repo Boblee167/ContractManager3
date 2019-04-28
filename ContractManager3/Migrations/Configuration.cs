@@ -9,8 +9,8 @@ namespace ContractManager3.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "ContractManager2.Models.ApplicationDbContext";
+            AutomaticMigrationsEnabled = true;
+            ContextKey = "ContractManager3.Models.ApplicationDbContext";
         }
 
         protected override void Seed(ContractManager3.Models.ApplicationDbContext context)

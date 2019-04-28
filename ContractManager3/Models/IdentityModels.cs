@@ -26,7 +26,7 @@ namespace ContractManager3.Models
         public DbSet<ContractHour> ContractHours { get; set; }
 
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("ContractManager", throwIfV1Schema: false)
         {
         }
 
