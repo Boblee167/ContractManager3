@@ -8,10 +8,18 @@ namespace ContractManager3.Controllers
 {
     public class PropertyController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
+            private IDeploymentsContext db = new ApplicationDbContext();
 
-        // GET: Property
-        public async Task<ActionResult> Index()
+            public PropertyController() { }
+
+            public PropertyController(IDeploymentsContext context)
+            {
+                db = context;
+            }
+                                    
+            // GET: Property
+            public async Task<ActionResult> Index()
         {
             return View(await db.Property.ToListAsync());
         }
@@ -47,7 +55,7 @@ namespace ContractManager3.Controllers
             if (ModelState.IsValid)
             {
                 db.Property.Add(property);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -78,8 +86,8 @@ namespace ContractManager3.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(property).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.MarkAsModified(property);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(property);
@@ -107,7 +115,7 @@ namespace ContractManager3.Controllers
         {
             Property property = await db.Property.FindAsync(id);
             db.Property.Remove(property);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -26,10 +26,10 @@ namespace ContractManager3.Models
         [ForeignKey("ContractDetail")]
         public int Contract_ID { get; set; }
 
-        [Required]
+        //[Required]
         public WeekDay Weekday { get; set; }
 
-        [Required]
+        //[Required]
         public double DailyHours { get; set; }
 
         public DateTime HoursUpdatedDate { get; set; }

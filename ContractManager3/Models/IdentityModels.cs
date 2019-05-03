@@ -18,7 +18,7 @@ namespace ContractManager3.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDeploymentsContext
     {
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Property> Property { get; set; }
@@ -26,7 +26,7 @@ namespace ContractManager3.Models
         public DbSet<ContractHour> ContractHours { get; set; }
 
         public ApplicationDbContext()
-            : base("ContractManager", throwIfV1Schema: false)
+            : base("name = DeploymentsContext", throwIfV1Schema: false)
         {
         }
 
@@ -34,5 +34,12 @@ namespace ContractManager3.Models
         {
             return new ApplicationDbContext();
         }
+
+        public void MarkAsModified(object item)
+        {
+            Entry(item).State= EntityState.Modified;
+        }
+
+        
     }
 }

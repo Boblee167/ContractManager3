@@ -11,23 +11,23 @@ namespace ContractManager3.Models
             [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
             public int Supplier_ID { get; set; }
 
-            [Required]
+            //[Required]
             public string SupplierNumber { get; set; }
 
-            [Required]
+            //[Required]
             public string SupplierName { get; set; }
 
-            [Required]
+            //[Required]
             public string SupplierAddress { get; set; }
 
-            [Required]
+            //[Required]
             public string SupplierCounty { get; set; }
 
-            [Required]
+            //[Required]
             public string SupplierContact { get; set; }
 
-            [Required]
-            [EmailAddress]
+            //[Required]
+            //[EmailAddress]
             public string SupplierEMail { get; set; }
 
 
@@ -35,6 +35,6 @@ namespace ContractManager3.Models
 
             public virtual List<ContractDetail> ContractDetail { get; set; }
 
-       
+      
     }
 }

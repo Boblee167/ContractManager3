@@ -404,7 +404,7 @@ namespace ContractManager3.Migrations
             context.SaveChanges();
             var Contract = new List<ContractDetail>
             {
-new ContractDetail{Supplier_ID=  1   ,ContractStartDate = new DateTime(  10,05,2016  ),ContractFinishDate= new DateTime( 10,05,2020  ),Servicetype=Service.Waste    ,PriceDescription = "Hourly Price"  ,Price =    22.00   ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
+new ContractDetail{Supplier_ID=    1   ,ContractStartDate = new DateTime(  10,05,2016  ),ContractFinishDate= new DateTime( 10,05,2020  ),Servicetype=Service.Waste    ,PriceDescription = "Hourly Price"  ,Price =    22.00   ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
 new ContractDetail{Supplier_ID=    2   ,ContractStartDate = new DateTime(  31,08,2018  ),ContractFinishDate= new DateTime( 31,08,2020  ),Servicetype=Service.  Waste   ,PriceDescription = "Hourly Price"  ,Price =    15.00   ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
 new ContractDetail{Supplier_ID=    3   ,ContractStartDate = new DateTime(  10,05,2018  ),ContractFinishDate= new DateTime( 10,05,2022  ),Servicetype=Service.  Cleaning ,PriceDescription = "Hourly Price"  ,Price =    0.00    ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
 new ContractDetail{Supplier_ID=    4   ,ContractStartDate = new DateTime(  13,12,2015  ),ContractFinishDate= new DateTime( 13,12,2019  ),Servicetype=Service.  Transport   ,PriceDescription = "Hourly Price"  ,Price =    0.00    ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },

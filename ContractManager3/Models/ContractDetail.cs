@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 
 namespace ContractManager3.Models
 {
@@ -39,31 +40,31 @@ namespace ContractManager3.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Contract_ID { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime ContractStartDate { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime ContractFinishDate { get; set; }
 
-        [Required]
+        //[Required]
         public int ContractExtensionsAvailable { get; set; }
 
-        [Required]
+        //[Required]
         public int DurationContactExtension { get; set; }
 
-        [Required]
+        //[Required]
         public Service Servicetype { get; set; }
 
-        [Required]
+        //[Required]
         public String PriceDescription { get; set; }
 
-        [Required]
+        //[Required]
         public Double Price { get; set; }
 
-        [Required]
+        //[Required]
         public Double VatRate { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime PriceUpdatedate { get; set; }
 
         [ForeignKey("Supplier")]
@@ -72,7 +73,8 @@ namespace ContractManager3.Models
 
         //Navigation Property
         public virtual Supplier Supplier { get; set; }
-        
+        public EntityState State { get; internal set; }
+
 
         // Methods
         // Calculate the Annual Cost of the Contract by Property this is day 365

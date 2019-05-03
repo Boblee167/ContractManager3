@@ -8,10 +8,19 @@ namespace ContractManager3.Controllers
 {
     public class SuppliersController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+       //private ApplicationDbContext db = new ApplicationDbContext();
+            private IDeploymentsContext db = new ApplicationDbContext();
 
-        // GET: Suppliers
-        public async Task<ActionResult> Index()
+            public SuppliersController() { }
+
+            public SuppliersController(IDeploymentsContext context)
+            {
+                db = context;
+            }
+
+                                    
+            // GET: Suppliers
+            public async Task<ActionResult> Index()
         {
             return View(await db.Supplier.ToListAsync());
         }
@@ -47,7 +56,7 @@ namespace ContractManager3.Controllers
             if (ModelState.IsValid)
             {
                 db.Supplier.Add(supplier);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -78,8 +87,8 @@ namespace ContractManager3.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(supplier).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.MarkAsModified(supplier);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(supplier);
@@ -107,7 +116,7 @@ namespace ContractManager3.Controllers
         {
             Supplier supplier = await db.Supplier.FindAsync(id);
             db.Supplier.Remove(supplier);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

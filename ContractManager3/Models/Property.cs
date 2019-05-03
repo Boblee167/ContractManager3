@@ -26,33 +26,33 @@ namespace ContractManager3.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Property_ID { get; set; }
 
-        [Required]
+        //[Required]
         public string Prop_Address { get; set; }
 
-        [Required]
+        //[Required]
         public string Prop_County { get; set; }
 
-        [Required]
+        //[Required]
         public Property_Type Type { get; set; }
 
-        [Required]
+        //[Required]
         public string Cost_Centre { get; set; }
 
-        [Required]
+        //[Required]
         public string OPW_Building_Code { get; set; }
 
-        [Required]
+        //[Required]
         public Property_Team Team { get; set; }
 
-        [Required]
+        //[Required]
         public int SquareMetre { get; set; }
 
-        [Required]
+        //[Required]
         public int StaffCapacity { get; set; }
 
         public int CarParkSpots { get; set; }
 
-        [Required]
+        //[Required]
         public DateTime DateOpened { get; set; }
 
         public DateTime DateClosed { get; set; }
@@ -64,5 +64,6 @@ namespace ContractManager3.Models
 
         public virtual List<ContractHour> ContractHour { get; set; }
 
+       
     }
 }

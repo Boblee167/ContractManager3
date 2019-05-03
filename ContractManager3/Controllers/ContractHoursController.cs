@@ -8,10 +8,18 @@ namespace ContractManager3.Controllers
 {
     public class ContractHoursController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        //private ApplicationDbContext db = new ApplicationDbContext();
+          private IDeploymentsContext db = new ApplicationDbContext();
 
-        // GET: ContractHours
-        public async Task<ActionResult> Index()
+            public ContractHoursController() { }
+
+            public ContractHoursController(IDeploymentsContext context)
+            {
+                db = context;
+            }
+                                    
+            // GET: ContractHours
+            public async Task<ActionResult> Index()
         {
             var contractHours = db.ContractHours.Include(c => c.ContractDetail).Include(c => c.Property);
             return View(await contractHours.ToListAsync());
@@ -50,7 +58,7 @@ namespace ContractManager3.Controllers
             if (ModelState.IsValid)
             {
                 db.ContractHours.Add(contractHour);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -85,8 +93,8 @@ namespace ContractManager3.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(contractHour).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.MarkAsModified(contractHour);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.Contract_ID = new SelectList(db.ContractDetails, "Contract_ID", "PriceDescription", contractHour.Contract_ID);
@@ -116,7 +124,7 @@ namespace ContractManager3.Controllers
         {
             ContractHour contractHour = await db.ContractHours.FindAsync(id);
             db.ContractHours.Remove(contractHour);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

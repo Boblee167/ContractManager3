@@ -50,5 +50,14 @@ namespace ContractManager3.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
         }
+
+        [TestMethod()]
+        public void AboutTest()
+        {
+            var controller = new HomeController();
+            var result = controller.About();
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
     }
 }
