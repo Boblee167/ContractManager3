@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ContractManager3.Models
 {
@@ -26,7 +27,7 @@ namespace ContractManager3.Models
         public DbSet<ContractHour> ContractHours { get; set; }
 
         public ApplicationDbContext()
-            : base("name = DeploymentsContext", throwIfV1Schema: false)
+            : base("ContractManager", throwIfV1Schema: false)
         {
         }
 
@@ -40,6 +41,9 @@ namespace ContractManager3.Models
             Entry(item).State= EntityState.Modified;
         }
 
-        
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
     }
 }

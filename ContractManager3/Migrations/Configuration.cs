@@ -1,6 +1,5 @@
 namespace ContractManager3.Migrations
-{
-    using ContractManager3.Models;
+{   using ContractManager3.Models;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
@@ -10,6 +9,7 @@ namespace ContractManager3.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
             ContextKey = "ContractManager3.Models.ApplicationDbContext";
         }
 
