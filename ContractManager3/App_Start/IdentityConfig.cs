@@ -5,8 +5,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ContractManager3
 {
@@ -19,7 +21,7 @@ namespace ContractManager3
         }
     }
 
-    public class SmsService : IIdentityMessageService
+           public class SmsService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {
@@ -102,4 +104,66 @@ namespace ContractManager3
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
+
+    public class ApplicationRoleManager : RoleManager<ApplicationRole>
+    {
+        public ApplicationRoleManager(
+            IRoleStore<ApplicationRole, string> roleStore)
+            : base(roleStore)
+        {
+        }
+        public static ApplicationRoleManager Create(
+            IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        {
+            return new ApplicationRoleManager(
+                new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
+        }
+    }
+
+
+    public class ApplicationDbInitializer
+    : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    {
+        protected override void Seed(ApplicationDbContext context)
+        {
+            InitializeIdentityForEF(context);
+            base.Seed(context);
+        }
+
+        public static void InitializeIdentityForEF(ApplicationDbContext db)
+        {
+            var userManager =
+                HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var roleManager =
+                HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            const string name = "John.Lee@Welfare.ie";
+            const string password = "Password-167";
+            const string roleName = "Admin";
+
+            //Create Role Admin if it does not exist
+            var role = roleManager.FindByName(roleName);
+            if (role == null)
+            {
+                role = new ApplicationRole(roleName);
+                var roleresult = roleManager.Create(role);
+            }
+
+            var user = userManager.FindByName(name);
+            if (user == null)
+            {
+                user = new ApplicationUser { UserName = name, Email = name };
+                var result = userManager.Create(user, password);
+                result = userManager.SetLockoutEnabled(user.Id, false);
+            }
+
+            // Add user admin to Role Admin if not already added
+            var rolesForUser = userManager.GetRoles(user.Id);
+            if (!rolesForUser.Contains(role.Name))
+            {
+                var result = userManager.AddToRole(user.Id, role.Name);
+            }
+        }
+    }
+
+
 }

@@ -1,19 +1,20 @@
 namespace ContractManager3.Migrations
-{   using ContractManager3.Models;
+{
+    using ContractManager3.Models;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ContractManager3.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationsEnabled = false;
             ContextKey = "ContractManager3.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(ContractManager3.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -369,12 +370,21 @@ namespace ContractManager3.Migrations
                 new Property{Prop_Address="	Urlingford CWS, Health Centre, Main Street, Urlingford, Co. Kilkenny 	", Prop_County="	Co. Kilkenny 	",Type = Property_Type.HSE_Location,    Cost_Centre="	V2402	",OPW_Building_Code="		",Team=Property_Team.Team_South ,SquareMetre=   0   ,StaffCapacity= 0   ,CarParkSpots=  0   ,DateOpened=    new DateTime (01/01/2019)   ,DateClosed=    new DateTime () ,Lease_ID=  null    ,},
                 new Property{Prop_Address="	Wexford MRA, Saint Bridgets Centre, Roche's Road, Wexford, Co Wexford	", Prop_County="	Co. Wexford	",Type = Property_Type.HSE_Location,    Cost_Centre="	V2402	",OPW_Building_Code="		",Team=Property_Team.Team_South ,SquareMetre=   0   ,StaffCapacity= 0   ,CarParkSpots=  0   ,DateOpened=    new DateTime (01/01/2019)   ,DateClosed=    new DateTime () ,Lease_ID=  null,},
             };
-            property.ForEach(p => context.Property.Add(p));
+
+            foreach (Property p in property)
+            {
+                var existingproperty = context.Property.Where(x =>x.Prop_Address == p.Prop_Address && x.Prop_County == p.Prop_County && x.Cost_Centre == p.Cost_Centre).FirstOrDefault();
+                if (existingproperty == null)
+                {
+                    context.Property.Add(p);
+                }
+            }
             context.SaveChanges();
 
+            
             var Supplier = new List<Supplier>
             {
-                 new Supplier{SupplierNumber="	SN001	",SupplierName="	SARS	",SupplierAddress="	A8 Centrepoint Business Park, Oak Road, Dublin 12	",SupplierCounty="	Dublin	",SupplierContact="	Eugene Sloan	",SupplierEMail="	info@sargroup.ie	"},
+ new Supplier{SupplierNumber="	SN001	",SupplierName="	SARS	",SupplierAddress="	A8 Centrepoint Business Park, Oak Road, Dublin 12	",SupplierCounty="	Dublin	",SupplierContact="	Eugene Sloan	",SupplierEMail="	info@sargroup.ie	"},
  new Supplier{SupplierNumber="	SN002	",SupplierName="	Country Clean Ltd	",SupplierAddress="	Ballygown,Mallow,Co Cork	",SupplierCounty="	Cork	",SupplierContact="	Denise Marnane	",SupplierEMail="	sales@countryclean.ie	"},
  new Supplier{SupplierNumber="	SN003	",SupplierName="	Grosvenor	",SupplierAddress="	64c Heather Road,Sandyford Industrial Estate,Dublin 18	",SupplierCounty="	Dublin	",SupplierContact="	Pauline Nolan	",SupplierEMail="	enquiriesireland@grosvenorservices.com	"},
  new Supplier{SupplierNumber="	SN004	",SupplierName="	William Tracey & Sons	",SupplierAddress="	Unit 21 Churchtown Business Park, Beaumont Avenue, Churchtown, Dublin 14, D14 CC65	",SupplierCounty="	Dublin	",SupplierContact="		",SupplierEMail="	info@williamtraceyandsons.ie	"},
@@ -400,9 +410,19 @@ namespace ContractManager3.Migrations
  new Supplier{SupplierNumber="	SN024	",SupplierName="	Trimfold Ltd	",SupplierAddress="	Eamon Duggan Industrial Estate, Athboy Rd, Whitehall, Trim, Co. Meath	",SupplierCounty="	Meath	",SupplierContact="		",SupplierEMail="		"},
 
             };
-            Supplier.ForEach(s => context.Supplier.Add(s));
+
+            foreach (Supplier s in Supplier)
+            {
+                var existingsupplier = context.Supplier.Where(x => x.SupplierName == s.SupplierName && x.SupplierAddress == s.SupplierAddress && x.SupplierNumber == s.SupplierNumber).FirstOrDefault();
+                if (existingsupplier == null)
+                {
+                    context.Supplier.Add(s);
+                }
+            }
             context.SaveChanges();
-            var Contract = new List<ContractDetail>
+
+
+           /* var Contract = new List<ContractDetail>
             {
 new ContractDetail{Supplier_ID=    1   ,ContractStartDate = new DateTime(  10,05,2016  ),ContractFinishDate= new DateTime( 10,05,2020  ),Servicetype=Service.Waste    ,PriceDescription = "Hourly Price"  ,Price =    22.00   ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
 new ContractDetail{Supplier_ID=    2   ,ContractStartDate = new DateTime(  31,08,2018  ),ContractFinishDate= new DateTime( 31,08,2020  ),Servicetype=Service.  Waste   ,PriceDescription = "Hourly Price"  ,Price =    15.00   ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
@@ -429,10 +449,19 @@ new ContractDetail{Supplier_ID=    22  ,ContractStartDate = new DateTime(  07,11
 new ContractDetail{Supplier_ID=    23  ,ContractStartDate = new DateTime(  30,05,2017  ),ContractFinishDate= new DateTime( 30,05,2019  ),Servicetype=Service.  Stationery  ,PriceDescription = "Hourly Price"  ,Price =    0.00    ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
 new ContractDetail{Supplier_ID=    24  ,ContractStartDate = new DateTime(  31,01,2016  ),ContractFinishDate= new DateTime( 31,01,2020  ),Servicetype=Service.  Envelopes   ,PriceDescription = "Hourly Price"  ,Price =    0.00    ,VatRate=   0.135   ,PriceUpdatedate=new DateTime (01/01/2019)  },
             };
-            Contract.ForEach(s => context.ContractDetails.Add(s));
+
+            foreach (ContractDetail cd in Contract)
+            {
+                var existingcontractdetail = context.ContractDetails.Where(x => x.Supplier_ID == cd.Supplier_ID && x.Servicetype == cd.Servicetype && x.ContractStartDate == cd.ContractStartDate && x.ContractFinishDate == cd.ContractFinishDate).FirstOrDefault();
+                if (existingcontractdetail == null)
+                {
+                    context.ContractDetails.Add(cd);
+                }
+            }
             context.SaveChanges();
 
-            var CleaningHours = new List<ContractHour>
+
+            var ContractHours = new List<ContractHour>
              {
    new ContractHour{Contract_ID=1   ,Property_ID=   1   ,Weekday=WeekDay.   Mon ,DailyHours =   11.5    ,HoursUpdatedDate = new DateTime (  01,01,2019  ), },
   new ContractHour{Contract_ID= 1   ,Property_ID=   1   ,Weekday=WeekDay.   Tue ,DailyHours =   11.5    ,HoursUpdatedDate = new DateTime (  01,01,2019  ), },
@@ -547,8 +576,18 @@ new ContractDetail{Supplier_ID=    24  ,ContractStartDate = new DateTime(  31,01
   new ContractHour{Contract_ID= 3   ,Property_ID=   8   ,Weekday=WeekDay.   Sat ,DailyHours =   0   ,HoursUpdatedDate = new DateTime (  01,01,2019  ), },
   new ContractHour{Contract_ID= 3   ,Property_ID=   8   ,Weekday=WeekDay.   Sun ,DailyHours =   0   ,HoursUpdatedDate = new DateTime (  01,01,2019  ), },
                 };
-            Contract.ForEach(s => context.ContractDetails.Add(s));
+
+            foreach (ContractHour ch in ContractHours)
+            {
+                var existingcontractHours = context.ContractHours.Where(x => x.Contract_ID == ch.Contract_ID && x.Property_ID == ch.Property_ID && x.Weekday == ch.Weekday).FirstOrDefault();
+                if (existingcontractHours == null)
+                {
+                    context.ContractHours.Add(ch);
+                }
+            }
             context.SaveChanges();
+
+    */
         }
     }
 }

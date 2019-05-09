@@ -19,6 +19,13 @@ namespace ContractManager3.Models
         }
     }
 
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole() : base() { }
+        public ApplicationRole(string name) : base(name) { }
+        public string Description { get; set; }
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDeploymentsContext
     {
         public DbSet<Supplier> Supplier { get; set; }
@@ -44,6 +51,7 @@ namespace ContractManager3.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
         }
     }
 }
