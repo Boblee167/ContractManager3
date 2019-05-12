@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System;
 
 namespace ContractManager3.Models
 {
@@ -17,12 +18,25 @@ namespace ContractManager3.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public string Company { get; set; }
+
+        public string DisplayCompany
+        {
+            get
+            {
+                string dspAddress =
+                    string.IsNullOrWhiteSpace(this.Company) ? "" : this.Company;
+
+                return string
+                    .Format("{0}", DisplayCompany);
+            }
+        }
     }
 
     public class ApplicationRole : IdentityRole
     {
         public ApplicationRole() : base() { }
-        public ApplicationRole(string name) : base(name) { }
+        public ApplicationRole(string rolename) : base(rolename) { }
         public string Description { get; set; }
     }
 
@@ -32,6 +46,8 @@ namespace ContractManager3.Models
         public DbSet<Property> Property { get; set; }
         public DbSet<ContractDetail> ContractDetails { get; set; }
         public DbSet<ContractHour> ContractHours { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        //public DbSet<ApplicationRole> ApplicationRole { get; set; }
 
         public ApplicationDbContext()
             : base("ContractManager", throwIfV1Schema: false)
@@ -45,13 +61,24 @@ namespace ContractManager3.Models
 
         public void MarkAsModified(object item)
         {
-            Entry(item).State= EntityState.Modified;
+            Entry(item).State = EntityState.Modified;
         }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
         }
+
     }
 }
+
+
+
+
+
+

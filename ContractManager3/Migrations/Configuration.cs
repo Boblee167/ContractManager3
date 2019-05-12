@@ -1,22 +1,59 @@
 namespace ContractManager3.Migrations
 {
     using ContractManager3.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Web;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "ContractManager3.Models.ApplicationDbContext";
+            AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(ApplicationDbContext context)
+        public static void InitializeIdentityForEF(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var userManager =
+                HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var roleManager =
+                HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            const string name = "John.Lee@Welfare.ie";
+            const string password = "Password-167";
+            const string roleName = "Admin";
+
+            //Create Role Admin if it does not exist
+            var role = roleManager.FindByName(roleName);
+            if (role == null)
+            {
+                role = new ApplicationRole(roleName);
+                var roleresult = roleManager.Create(role);
+                {
+                    context.Roles.Add(role);
+                }
+            }
+
+            var user = userManager.FindByName(name);
+            if (user == null)
+            {
+                user = new ApplicationUser { UserName = name, Email = name };
+                var result = userManager.Create(user, password);
+                result = userManager.SetLockoutEnabled(user.Id, false);
+            }
+
+            // Add user admin to Role Admin if not already added
+            var rolesForUser = userManager.GetRoles(user.Id);
+            if (!rolesForUser.Contains(role.Name))
+            {
+                var result = userManager.AddToRole(user.Id, role.Name);
+                context.Roles.Add();
+            }
+        
+            //  This method will be called Always.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.

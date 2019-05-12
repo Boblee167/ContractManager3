@@ -52,6 +52,12 @@ namespace ContractManager3.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string Company { get; set; }
+       
+        // Use a sensible display name for views:
+        [Display(Name = "User Company")]
+        public string DisplayCompany { get; set; }
     }
 
     public class ResetPasswordViewModel

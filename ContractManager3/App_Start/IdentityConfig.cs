@@ -1,4 +1,5 @@
-﻿using ContractManager3.Models;
+﻿using ContractManager3.Migrations;
+using ContractManager3.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -21,7 +22,7 @@ namespace ContractManager3
         }
     }
 
-           public class SmsService : IIdentityMessageService
+    public class SmsService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {
@@ -38,7 +39,7 @@ namespace ContractManager3
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -79,7 +80,7 @@ namespace ContractManager3
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
@@ -105,65 +106,29 @@ namespace ContractManager3
         }
     }
 
+
     public class ApplicationRoleManager : RoleManager<ApplicationRole>
     {
-        public ApplicationRoleManager(
-            IRoleStore<ApplicationRole, string> roleStore)
-            : base(roleStore)
+        public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore): base(roleStore) { }
+
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
         {
-        }
-        public static ApplicationRoleManager Create(
-            IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
-        {
-            return new ApplicationRoleManager(
-                new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
+           var applicationRoleManager =  new ApplicationRoleManager(new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
+           return applicationRoleManager;
         }
     }
-
-
+    
     public class ApplicationDbInitializer
-    : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    : DropCreateDatabaseAlways<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            InitializeIdentityForEF(context);
+            Configuration.InitializeIdentityForEF(context);
             base.Seed(context);
         }
 
-        public static void InitializeIdentityForEF(ApplicationDbContext db)
-        {
-            var userManager =
-                HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var roleManager =
-                HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string name = "John.Lee@Welfare.ie";
-            const string password = "Password-167";
-            const string roleName = "Admin";
-
-            //Create Role Admin if it does not exist
-            var role = roleManager.FindByName(roleName);
-            if (role == null)
-            {
-                role = new ApplicationRole(roleName);
-                var roleresult = roleManager.Create(role);
-            }
-
-            var user = userManager.FindByName(name);
-            if (user == null)
-            {
-                user = new ApplicationUser { UserName = name, Email = name };
-                var result = userManager.Create(user, password);
-                result = userManager.SetLockoutEnabled(user.Id, false);
-            }
-
-            // Add user admin to Role Admin if not already added
-            var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name))
-            {
-                var result = userManager.AddToRole(user.Id, role.Name);
-            }
-        }
     }
-
-
 }
+
+
+

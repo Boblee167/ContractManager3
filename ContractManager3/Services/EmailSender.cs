@@ -1,49 +1,42 @@
 ﻿/*
-using SendGrid;
-using SendGrid.Helpers.Mail;
+
+
+using Microsoft.AspNet.Identity;
+using System;
 using System.Threading.Tasks;
 
-namespace ContractManager3.Services
+public class EmailService : IIdentityMessageService
 {
-    
-    public class EmailSender : IEmailSender
+    public Task SendAsync(IdentityMessage message)
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
-        {
+        // Credentials:
+        var sendGridUserName = "yourSendGridUserName";
+        var sentFrom = "whateverEmailAdressYouWant";
+        var sendGridPassword = "YourSendGridPassword";
 
-            Options = optionsAccessor.Value;
-        }
+        // Configure the client:
+        var client =
+            new System.Net.Mail.SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
 
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        client.Port = 587;
+        client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+        client.UseDefaultCredentials = false;
 
-        public Task SendEmailAsync(string email, string subject, string message)
-        {
-            return Execute(Options.SendGridKey, subject, message, email);
-        }
+        // Create the credentials:
+        System.Net.NetworkCredential credentials =
+            new System.Net.NetworkCredential(credentialUserName, sendGridPassword);
+        client.EnableSsl = true; client.Credentials = credentials;
 
-        public Task Execute(string apiKey, string subject, string message, string email)
-        {
-            var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress("Joe@contoso.com", "Joe Smith"),
-                Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
-            };
-            msg.AddTo(new EmailAddress(email));
+        // Create the message: var mail = new System.Net.Mail.MailMessage(sentFrom, message.Destination); 
+        mail.Subject = message.Subject;
+        mail.Body = message.Body;
 
-            // Disable click tracking.
-            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
-            msg.SetClickTracking(false, false);
-
-            return client.SendEmailAsync(msg);
-        }
+        // Send: 
+        return client.SendMailAsync(mail);
     }
 }
 
+
 */
-
-
 
     

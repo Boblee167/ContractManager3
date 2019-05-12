@@ -207,6 +207,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -214,6 +215,10 @@
     <Compile Include="Migrations\201904281633111_Initial.cs" />
     <Compile Include="Migrations\201904281633111_Initial.Designer.cs">
       <DependentUpon>201904281633111_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905110818308_ASPuser.cs" />
+    <Compile Include="Migrations\201905110818308_ASPuser.Designer.cs">
+      <DependentUpon>201905110818308_ASPuser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -234,8 +239,6 @@
     <Compile Include="Services\IEmailSender.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\ContractManager3.dll" />
-    <Content Include="bin\ContractManager3.pdb" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -353,6 +356,11 @@
     <Content Include="Views\Property\Details.cshtml" />
     <Content Include="Views\Property\Edit.cshtml" />
     <Content Include="Views\Property\Index.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Role\Edit.cshtml" />
+    <Content Include="Views\Role\Details.cshtml" />
+    <Content Include="Views\Role\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -369,6 +377,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904281633111_Initial.resx">
       <DependentUpon>201904281633111_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905110818308_ASPuser.resx">
+      <DependentUpon>201905110818308_ASPuser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
