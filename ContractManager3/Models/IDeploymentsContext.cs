@@ -8,7 +8,7 @@ namespace ContractManager3.Models
     {
         DbSet<Supplier> Supplier { get; }
         DbSet<Property> Property { get; }
-        DbSet<ContractDetail> ContractDetails { get; }
+        DbSet<ContractDetail> ContractDetail { get; }
         DbSet<ContractHour> ContractHours { get; }
         int SaveChanges();
         void MarkAsModified(Object item);

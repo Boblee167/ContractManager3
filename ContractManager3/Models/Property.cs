@@ -32,7 +32,7 @@ namespace ContractManager3.Models
         //[Required]
         public string Prop_County { get; set; }
 
-        //[Required]
+     
         public Property_Type Type { get; set; }
 
         //[Required]
@@ -41,16 +41,16 @@ namespace ContractManager3.Models
         //[Required]
         public string OPW_Building_Code { get; set; }
 
-        //[Required]
+       
         public Property_Team Team { get; set; }
 
         //[Required]
-        public int SquareMetre { get; set; }
+        public int? SquareMetre { get; set; }
 
         //[Required]
-        public int StaffCapacity { get; set; }
+        public int? StaffCapacity { get; set; }
 
-        public int CarParkSpots { get; set; }
+        public int? CarParkSpots { get; set; }
 
         //[Required]
         public DateTime DateOpened { get; set; }
@@ -62,8 +62,8 @@ namespace ContractManager3.Models
 
         // Navigation Properties
 
-        public virtual List<ContractHour> ContractHour { get; set; }
+        public virtual List<ContractDetail> ContractDetail { get; set; }
 
-       
+
     }
 }

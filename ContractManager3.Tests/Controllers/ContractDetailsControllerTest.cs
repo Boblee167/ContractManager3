@@ -7,14 +7,14 @@ using System.Web.Mvc;
 namespace ContractManager3.Controllers.Tests
 {
     [TestClass()]
-    public class ContractDetailsControllerTest
+    public class ContractDetailControllerTest
     {
 
         [TestMethod()]
         public void IndexTest()
         {
             TestDeploymentContext tdc = new TestDeploymentContext();
-            var controller = new ContractDetailsController(tdc);
+            var controller = new ContractDetailController(tdc);
             var result = controller.Index();
             Assert.IsNotNull(result);
         }
@@ -28,7 +28,7 @@ namespace ContractManager3.Controllers.Tests
             ContractDetail x = new ContractDetail() { Contract_ID = 0,  Supplier_ID = 0, ContractStartDate = new DateTime(10, 05, 2019),
             ContractFinishDate = new DateTime(10, 05, 2020),Servicetype = Service.Waste, PriceDescription = "Hourly Price", Price = 22.00,
             VatRate = 0.135, PriceUpdatedate = new DateTime(01 / 01 / 2019) };
-            tdc.ContractDetails.Add(x);
+            tdc.ContractDetail.Add(x);
             Assert.IsNotNull(x);
 
 

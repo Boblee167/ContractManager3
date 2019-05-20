@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
@@ -70,10 +71,13 @@ namespace ContractManager3.Models
         [ForeignKey("Supplier")]
         public int Supplier_ID { get; set; }
 
+        [ForeignKey("Property")]
+        public int Property_ID { get; set; }
 
         //Navigation Property
         public virtual Supplier Supplier { get; set; }
-        public EntityState State { get; internal set; }
+        public virtual List<ContractHour> Contracthour { get; set; }
+        public virtual List<Property> Property { get; set; }
 
 
         // Methods

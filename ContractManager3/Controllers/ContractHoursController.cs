@@ -21,7 +21,7 @@ namespace ContractManager3.Controllers
             // GET: ContractHours
             public async Task<ActionResult> Index()
         {
-            var contractHours = db.ContractHours.Include(c => c.ContractDetail).Include(c => c.Property);
+            var contractHours = db.ContractHours.Include(c => c.Contract_ID).Include(c => c.Property);
             return View(await contractHours.ToListAsync());
         }
 
@@ -43,7 +43,7 @@ namespace ContractManager3.Controllers
         // GET: ContractHours/Create
         public ActionResult Create()
         {
-            ViewBag.Contract_ID = new SelectList(db.ContractDetails, "Contract_ID", "PriceDescription");
+            ViewBag.Contract_ID = new SelectList(db.ContractDetail, "Contract_ID", "PriceDescription");
             ViewBag.Property_ID = new SelectList(db.Property, "Property_ID", "Prop_Address");
             return View();
         }
@@ -62,7 +62,7 @@ namespace ContractManager3.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Contract_ID = new SelectList(db.ContractDetails, "Contract_ID", "PriceDescription", contractHour.Contract_ID);
+            ViewBag.Contract_ID = new SelectList(db.ContractDetail, "Contract_ID", "PriceDescription", contractHour.Contract_ID);
             ViewBag.Property_ID = new SelectList(db.Property, "Property_ID", "Prop_Address", contractHour.Property_ID);
             return View(contractHour);
         }
@@ -79,7 +79,7 @@ namespace ContractManager3.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Contract_ID = new SelectList(db.ContractDetails, "Contract_ID", "PriceDescription", contractHour.Contract_ID);
+            ViewBag.Contract_ID = new SelectList(db.ContractDetail, "Contract_ID", "PriceDescription", contractHour.Contract_ID);
             ViewBag.Property_ID = new SelectList(db.Property, "Property_ID", "Prop_Address", contractHour.Property_ID);
             return View(contractHour);
         }
@@ -97,7 +97,7 @@ namespace ContractManager3.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Contract_ID = new SelectList(db.ContractDetails, "Contract_ID", "PriceDescription", contractHour.Contract_ID);
+            ViewBag.Contract_ID = new SelectList(db.ContractDetail, "Contract_ID", "PriceDescription", contractHour.Contract_ID);
             ViewBag.Property_ID = new SelectList(db.Property, "Property_ID", "Prop_Address", contractHour.Property_ID);
             return View(contractHour);
         }

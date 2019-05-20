@@ -8,13 +8,13 @@ namespace ContractManager3.Tests
     {
         public TestDeploymentContext()
         {
-            this.ContractDetails = new TestContractdetailsDbset();
+            this.ContractDetail = new TestContractdetailDbset();
             this.ContractHours = new TestContractHoursDbset();
             this.Property = new TestPropertyDbset();
             this.Supplier = new TestSupplierDbset();
         }
 
-        public DbSet<ContractDetail> ContractDetails { get; set; }
+        public DbSet<ContractDetail> ContractDetail { get; set; }
         public DbSet<ContractHour> ContractHours { get; set; }
         public DbSet<Property> Property { get; set; }
         public DbSet<Supplier> Supplier { get; set; }

@@ -23,13 +23,10 @@ namespace ContractManager3.Models
         [ForeignKey("Property")]
         public int Property_ID { get; set; }
 
-        [ForeignKey("ContractDetail")]
-        public int Contract_ID { get; set; }
-
-        //[Required]
+        
         public WeekDay Weekday { get; set; }
 
-        //[Required]
+        
         public double DailyHours { get; set; }
 
         public DateTime HoursUpdatedDate { get; set; }
@@ -38,9 +35,11 @@ namespace ContractManager3.Models
 
         public double AvgMonthlyHours { get; set; }
 
+        public int Contract_ID { get; set; }
+
         // Navigation Properties
         public virtual Property Property { get; set; }
-        public virtual ContractDetail ContractDetail { get; set; }
+        public virtual ContractDetail Contract { get; set; }
 
         // Fields to hold details of the variable days linked to contracts / Prpoerties
         public int CurrentYear { get; set; }

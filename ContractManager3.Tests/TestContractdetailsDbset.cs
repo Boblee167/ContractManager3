@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ContractManager3.Tests
 {
-    class TestContractdetailsDbset: TestDbSet<ContractDetail>
+    class TestContractdetailDbset: TestDbSet<ContractDetail>
     {
         public ContractDetail Find(string[] keyValues)
         {

@@ -6,34 +6,34 @@ using System.Web.Mvc;
 
 namespace ContractManager3.Controllers
 {
-    public class ContractDetailsController : Controller
+    public class ContractDetailController : Controller
     {
         //private ApplicationDbContext db = new ApplicationDbContext();
         private IDeploymentsContext db = new ApplicationDbContext();
 
-        public ContractDetailsController() { }
+        public ContractDetailController() { }
 
-        public ContractDetailsController(IDeploymentsContext context)
+        public ContractDetailController(IDeploymentsContext context)
         {
             db = context;
         }
 
 
-        // GET: ContractDetails
+        // GET: ContractDetail
         public async Task<ActionResult> Index()
         {
-            var contractDetails = db.ContractDetails.Include(c => c.Supplier);
-            return View(await contractDetails.ToListAsync());
+            var contractDetail = db.ContractDetail.Include(c => c.Supplier);
+            return View(await contractDetail.ToListAsync());
         }
 
-        // GET: ContractDetails/Details/5
+        // GET: ContractDetail/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ContractDetail contractDetail = await db.ContractDetails.FindAsync(id);
+            ContractDetail contractDetail = await db.ContractDetail.FindAsync(id);
             if (contractDetail == null)
             {
                 return HttpNotFound();
@@ -41,14 +41,14 @@ namespace ContractManager3.Controllers
             return View(contractDetail);
         }
 
-        // GET: ContractDetails/Create
+        // GET: ContractDetail/Create
         public ActionResult Create()
         {
             ViewBag.Supplier_ID = new SelectList(db.Supplier, "Supplier_ID", "SupplierNumber");
             return View();
         }
 
-        // POST: ContractDetails/Create
+        // POST: ContractDetail/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -57,7 +57,7 @@ namespace ContractManager3.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ContractDetails.Add(contractDetail);
+                db.ContractDetail.Add(contractDetail);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,14 +66,14 @@ namespace ContractManager3.Controllers
             return View(contractDetail);
         }
 
-        // GET: ContractDetails/Edit/5
+        // GET: ContractDetail/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ContractDetail contractDetail = await db.ContractDetails.FindAsync(id);
+            ContractDetail contractDetail = await db.ContractDetail.FindAsync(id);
             if (contractDetail == null)
             {
                 return HttpNotFound();
@@ -82,7 +82,7 @@ namespace ContractManager3.Controllers
             return View(contractDetail);
         }
 
-        // POST: ContractDetails/Edit/5
+        // POST: ContractDetail/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -100,14 +100,14 @@ namespace ContractManager3.Controllers
             return View(contractDetail);
         }
 
-        // GET: ContractDetails/Delete/5
+        // GET: ContractDetail/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ContractDetail contractDetail = await db.ContractDetails.FindAsync(id);
+            ContractDetail contractDetail = await db.ContractDetail.FindAsync(id);
             if (contractDetail == null)
             {
                 return HttpNotFound();
@@ -115,13 +115,13 @@ namespace ContractManager3.Controllers
             return View(contractDetail);
         }
 
-        // POST: ContractDetails/Delete/5
+        // POST: ContractDetail/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ContractDetail contractDetail = await db.ContractDetails.FindAsync(id);
-            db.ContractDetails.Remove(contractDetail);
+            ContractDetail contractDetail = await db.ContractDetail.FindAsync(id);
+            db.ContractDetail.Remove(contractDetail);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

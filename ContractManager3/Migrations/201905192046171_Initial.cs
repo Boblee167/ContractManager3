@@ -1,13 +1,14 @@
 namespace ContractManager3.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
-
+    
     public partial class Initial : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.ContractDetails",
+                "dbo.ContractDetail",
                 c => new
                     {
                         Contract_ID = c.Int(nullable: false, identity: true),
@@ -16,42 +17,29 @@ namespace ContractManager3.Migrations
                         ContractExtensionsAvailable = c.Int(nullable: false),
                         DurationContactExtension = c.Int(nullable: false),
                         Servicetype = c.Int(nullable: false),
-                        PriceDescription = c.String(nullable: false),
+                        PriceDescription = c.String(),
                         Price = c.Double(nullable: false),
                         VatRate = c.Double(nullable: false),
                         PriceUpdatedate = c.DateTime(nullable: false),
                         Supplier_ID = c.Int(nullable: false),
+                        Property_ID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Contract_ID)
-                .ForeignKey("dbo.Suppliers", t => t.Supplier_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Supplier", t => t.Supplier_ID)
                 .Index(t => t.Supplier_ID);
             
             CreateTable(
-                "dbo.Suppliers",
-                c => new
-                    {
-                        Supplier_ID = c.Int(nullable: false, identity: true),
-                        SupplierNumber = c.String(nullable: false),
-                        SupplierName = c.String(nullable: false),
-                        SupplierAddress = c.String(nullable: false),
-                        SupplierCounty = c.String(nullable: false),
-                        SupplierContact = c.String(nullable: false),
-                        SupplierEMail = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.Supplier_ID);
-            
-            CreateTable(
-                "dbo.ContractHours",
+                "dbo.ContractHour",
                 c => new
                     {
                         Transaction_ID = c.Int(nullable: false, identity: true),
                         Property_ID = c.Int(nullable: false),
-                        Contract_ID = c.Int(nullable: false),
                         Weekday = c.Int(nullable: false),
                         DailyHours = c.Double(nullable: false),
                         HoursUpdatedDate = c.DateTime(nullable: false),
                         WeeklyHours = c.Double(nullable: false),
                         AvgMonthlyHours = c.Double(nullable: false),
+                        Contract_ID = c.Int(nullable: false),
                         CurrentYear = c.Int(nullable: false),
                         LeapYear = c.Boolean(nullable: false),
                         Xmasday = c.String(),
@@ -68,25 +56,25 @@ namespace ContractManager3.Migrations
                         BankholidayHours = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.Transaction_ID)
-                .ForeignKey("dbo.ContractDetails", t => t.Contract_ID, cascadeDelete: true)
-                .ForeignKey("dbo.Properties", t => t.Property_ID, cascadeDelete: true)
+                .ForeignKey("dbo.ContractDetail", t => t.Contract_ID)
+                .ForeignKey("dbo.Property", t => t.Property_ID)
                 .Index(t => t.Property_ID)
                 .Index(t => t.Contract_ID);
             
             CreateTable(
-                "dbo.Properties",
+                "dbo.Property",
                 c => new
                     {
                         Property_ID = c.Int(nullable: false, identity: true),
-                        Prop_Address = c.String(nullable: false),
-                        Prop_County = c.String(nullable: false),
+                        Prop_Address = c.String(),
+                        Prop_County = c.String(),
                         Type = c.Int(nullable: false),
-                        Cost_Centre = c.String(nullable: false),
-                        OPW_Building_Code = c.String(nullable: false),
+                        Cost_Centre = c.String(),
+                        OPW_Building_Code = c.String(),
                         Team = c.Int(nullable: false),
-                        SquareMetre = c.Int(nullable: false),
-                        StaffCapacity = c.Int(nullable: false),
-                        CarParkSpots = c.Int(nullable: false),
+                        SquareMetre = c.Int(),
+                        StaffCapacity = c.Int(),
+                        CarParkSpots = c.Int(),
                         DateOpened = c.DateTime(nullable: false),
                         DateClosed = c.DateTime(nullable: false),
                         Lease_ID = c.Int(),
@@ -94,11 +82,27 @@ namespace ContractManager3.Migrations
                 .PrimaryKey(t => t.Property_ID);
             
             CreateTable(
+                "dbo.Supplier",
+                c => new
+                    {
+                        Supplier_ID = c.Int(nullable: false, identity: true),
+                        SupplierNumber = c.String(),
+                        SupplierName = c.String(),
+                        SupplierAddress = c.String(),
+                        SupplierCounty = c.String(),
+                        SupplierContact = c.String(),
+                        SupplierEMail = c.String(),
+                    })
+                .PrimaryKey(t => t.Supplier_ID);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
                         Name = c.String(nullable: false, maxLength: 256),
+                        Description = c.String(),
+                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
@@ -111,8 +115,8 @@ namespace ContractManager3.Migrations
                         RoleId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
             
@@ -121,6 +125,7 @@ namespace ContractManager3.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
+                        Company = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -146,7 +151,7 @@ namespace ContractManager3.Migrations
                         ClaimValue = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId);
             
             CreateTable(
@@ -158,8 +163,21 @@ namespace ContractManager3.Migrations
                         UserId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.ContractDetailProperty",
+                c => new
+                    {
+                        ContractDetail_Contract_ID = c.Int(nullable: false),
+                        Property_Property_ID = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.ContractDetail_Contract_ID, t.Property_Property_ID })
+                .ForeignKey("dbo.ContractDetail", t => t.ContractDetail_Contract_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Property", t => t.Property_Property_ID, cascadeDelete: true)
+                .Index(t => t.ContractDetail_Contract_ID)
+                .Index(t => t.Property_Property_ID);
             
         }
         
@@ -169,27 +187,32 @@ namespace ContractManager3.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.ContractHours", "Property_ID", "dbo.Properties");
-            DropForeignKey("dbo.ContractHours", "Contract_ID", "dbo.ContractDetails");
-            DropForeignKey("dbo.ContractDetails", "Supplier_ID", "dbo.Suppliers");
+            DropForeignKey("dbo.ContractDetail", "Supplier_ID", "dbo.Supplier");
+            DropForeignKey("dbo.ContractDetailProperty", "Property_Property_ID", "dbo.Property");
+            DropForeignKey("dbo.ContractDetailProperty", "ContractDetail_Contract_ID", "dbo.ContractDetail");
+            DropForeignKey("dbo.ContractHour", "Property_ID", "dbo.Property");
+            DropForeignKey("dbo.ContractHour", "Contract_ID", "dbo.ContractDetail");
+            DropIndex("dbo.ContractDetailProperty", new[] { "Property_Property_ID" });
+            DropIndex("dbo.ContractDetailProperty", new[] { "ContractDetail_Contract_ID" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.ContractHours", new[] { "Contract_ID" });
-            DropIndex("dbo.ContractHours", new[] { "Property_ID" });
-            DropIndex("dbo.ContractDetails", new[] { "Supplier_ID" });
+            DropIndex("dbo.ContractHour", new[] { "Contract_ID" });
+            DropIndex("dbo.ContractHour", new[] { "Property_ID" });
+            DropIndex("dbo.ContractDetail", new[] { "Supplier_ID" });
+            DropTable("dbo.ContractDetailProperty");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Properties");
-            DropTable("dbo.ContractHours");
-            DropTable("dbo.Suppliers");
-            DropTable("dbo.ContractDetails");
+            DropTable("dbo.Supplier");
+            DropTable("dbo.Property");
+            DropTable("dbo.ContractHour");
+            DropTable("dbo.ContractDetail");
         }
     }
 }

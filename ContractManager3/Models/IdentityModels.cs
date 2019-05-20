@@ -44,13 +44,13 @@ namespace ContractManager3.Models
     {
         public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Property> Property { get; set; }
-        public DbSet<ContractDetail> ContractDetails { get; set; }
+        public DbSet<ContractDetail> ContractDetail { get; set; }
         public DbSet<ContractHour> ContractHours { get; set; }
         //public DbSet<ApplicationUser> ApplicationUser { get; set; }
-        //public DbSet<ApplicationRole> ApplicationRole { get; set; }
+       // public DbSet<ApplicationRole> ApplicationRole { get; set; }
 
         public ApplicationDbContext()
-            : base("ContractManager", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
