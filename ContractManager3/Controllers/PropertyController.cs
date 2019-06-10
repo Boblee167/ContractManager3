@@ -50,7 +50,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Property_ID,Prop_Address,Prop_County,Type,Cost_Centre,OPW_Building_Code,Team,SquareMetre,StaffCapacity,CarParkSpots,DateOpened,DateClosed,Lease_ID")] Property property)
+        public ActionResult Create([Bind(Include = "Property_ID,Prop_Address,Prop_County,Type,Cost_Centre,OPW_Building_Code,Team,SquareMetre,StaffCapacity,CarParkSpots,DateOpened,DateClosed,Lease_ID")] Property property)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Property_ID,Prop_Address,Prop_County,Type,Cost_Centre,OPW_Building_Code,Team,SquareMetre,StaffCapacity,CarParkSpots,DateOpened,DateClosed,Lease_ID")] Property property)
+        public ActionResult Edit([Bind(Include = "Property_ID,Prop_Address,Prop_County,Type,Cost_Centre,OPW_Building_Code,Team,SquareMetre,StaffCapacity,CarParkSpots,DateOpened,DateClosed,Lease_ID")] Property property)
         {
             if (ModelState.IsValid)
             {

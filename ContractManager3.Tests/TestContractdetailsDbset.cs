@@ -20,10 +20,10 @@ namespace ContractManager3.Tests
 
     class TestContractHoursDbset : TestDbSet<ContractHour>
     {
-        public ContractHour Find(string[] keyValues)
-        {
-            return this.SingleOrDefault(c => c.Boxingday == (string)keyValues.FirstOrDefault());
-        }
+        //public ContractHour Find(string[] keyValues)
+        //{
+        //    return this.SingleOrDefault(c => c.Boxingday == (string)keyValues.FirstOrDefault());
+        //}
 
         public ContractHour Find(int[] keyValues)
         {

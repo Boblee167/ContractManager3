@@ -20,7 +20,7 @@ namespace ContractManager3.Models
     }
 
 
-     public class Property
+    public class Property
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -32,7 +32,7 @@ namespace ContractManager3.Models
         //[Required]
         public string Prop_County { get; set; }
 
-     
+
         public Property_Type Type { get; set; }
 
         //[Required]
@@ -41,20 +41,21 @@ namespace ContractManager3.Models
         //[Required]
         public string OPW_Building_Code { get; set; }
 
-       
+
         public Property_Team Team { get; set; }
 
         //[Required]
-        public int? SquareMetre { get; set; }
+        public double SquareMetre { get; set; }
 
         //[Required]
-        public int? StaffCapacity { get; set; }
+        public double StaffCapacity { get; set; }
 
         public int? CarParkSpots { get; set; }
 
-        //[Required]
+        [Column(TypeName = "datetime2")]
         public DateTime DateOpened { get; set; }
 
+        [Column(TypeName = "datetime2")]
         public DateTime DateClosed { get; set; }
 
         public int? Lease_ID { get; set; }
@@ -63,7 +64,7 @@ namespace ContractManager3.Models
         // Navigation Properties
 
         public virtual List<ContractDetail> ContractDetail { get; set; }
-
+        public virtual List<ContractHour> ContractHour { get; set; }
 
     }
 }

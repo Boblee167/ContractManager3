@@ -32,19 +32,21 @@ namespace ContractManager3.Models
         [Display(Name = "Photocopying Paper")] Paper,
         [Display(Name = "Stationery")] Stationery,
         [Display(Name = "Envelopes")] Envelopes,
+        [Display(Name = "DocumentStorage")] DocumentStorage,
     }
 
 
     public class ContractDetail
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Contract_ID { get; set; }
 
-        //[Required]
+        [Column(TypeName = "datetime2")]
         public DateTime ContractStartDate { get; set; }
 
-        //[Required]
+        [Column(TypeName = "datetime2")]
         public DateTime ContractFinishDate { get; set; }
 
         //[Required]
@@ -57,15 +59,15 @@ namespace ContractManager3.Models
         public Service Servicetype { get; set; }
 
         //[Required]
-        public String PriceDescription { get; set; }
+        public string PriceDescription { get; set; }
 
         //[Required]
-        public Double Price { get; set; }
+        public double Price { get; set; }
 
         //[Required]
-        public Double VatRate { get; set; }
+        public double VatRate { get; set; }
 
-        //[Required]
+        [Column(TypeName = "datetime2")]
         public DateTime PriceUpdatedate { get; set; }
 
         [ForeignKey("Supplier")]
@@ -91,11 +93,6 @@ namespace ContractManager3.Models
             return YearlyCost;
         }
 
-
-
-
-
-
-
     }
+
 }

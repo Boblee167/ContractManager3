@@ -27,5 +27,25 @@ namespace ContractManager3.Controllers
 
             return View();
         }
+        public ActionResult AdminView()
+        {
+            ViewBag.Message = "Welcome Administrator";
+
+            return View();
+        }
+
+        public ActionResult SupplierView()
+        {
+            ViewBag.Message = "Welcome Supplier";
+
+            return View();
+        }
+
+        public ActionResult DeptView()
+        {
+            ViewBag.Message = "Welcome Dept" + User.ToString();
+
+            return View();
+        }
     }
 }

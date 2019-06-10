@@ -53,7 +53,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Transaction_ID,Property_ID,Contract_ID,Weekday,DailyHours,HoursUpdatedDate,WeeklyHours,AvgMonthlyHours")] ContractHour contractHour)
+        public ActionResult Create([Bind(Include = "Transaction_ID,Property_ID,Contract_ID,Weekday,DailyHours,HoursUpdatedDate,WeeklyHours,AvgMonthlyHours")] ContractHour contractHour)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Transaction_ID,Property_ID,Contract_ID,Weekday,DailyHours,HoursUpdatedDate,WeeklyHours,AvgMonthlyHours")] ContractHour contractHour)
+        public ActionResult Edit([Bind(Include = "Transaction_ID,Property_ID,Contract_ID,Weekday,DailyHours,HoursUpdatedDate,WeeklyHours,AvgMonthlyHours")] ContractHour contractHour)
         {
             if (ModelState.IsValid)
             {
@@ -166,26 +166,7 @@ namespace ContractManager3.Controllers
         }
 
 
-        //POST: Calc
-        [HttpPost]
-        public ActionResult CalcHours(ContractHour hours)
-        {
-            if (ModelState.IsValid)
-            {
-                //No errors added to ModelState
-                // Get a value for the current year.(int)
-                hours.Calcweeklyhours();
-                hours.CalcAnnualhours(hours.WeeklyHours, hours.LeapYear);
-                hours.CalcBankHolidayHours();
-                hours.Dayhours365 = hours.Calc365dayhours(hours.Contract_ID, hours.Property_ID, hours.Day365);
-                hours.Calc366dayhours(hours.Contract_ID, hours.Property_ID, hours.Day366);
-                hours.Xmasdayhours(hours.Contract_ID, hours.Property_ID, hours.Xmasday);
-                hours.CalcBoxingdayhours(hours.Contract_ID, hours.Property_ID, hours.Boxingday);
-                hours.CalcMondayhours(hours.Contract_ID, hours.Property_ID);
-                hours.GoodFridayhours = hours.CalcGoodFridayhours(hours.Contract_ID, hours.Property_ID);
-            }
-                return View(hours);
-        }
+       
             
            
     }

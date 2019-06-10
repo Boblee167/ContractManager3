@@ -1,6 +1,7 @@
 ﻿using ContractManager3.Models;
 using ContractManager3.Provider;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
@@ -36,7 +37,7 @@ namespace ContractManager3
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -66,8 +67,8 @@ namespace ContractManager3
             //    ClientSecret = ""
             //});
         }
-
-           public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+    
+     public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
             static Startup()
             {
@@ -84,7 +85,46 @@ namespace ContractManager3
             {
                 app.UseOAuthBearerTokens(OAuthOptions);
                 app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+                createRolesandUsers();
             }
-        
+               
+
+
+            private void createRolesandUsers()
+            {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+
+            // In Startup I am creating first Admin Role and creating a default Admin User    
+            if (!roleManager.RoleExists("Admin"))
+            {
+
+                // first we create Admin role   
+                var role1 = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role1.Name = "Admin";
+                roleManager.Create(role1);
+
+                //Here we create a Admin super user who will maintain the website                  
+                var user = new ApplicationUser();
+                user.UserName = "Johnlee";
+                user.Email = "John.lee@welfare.ie";
+                user.EmailConfirmed = true;
+
+                string userPWD = "Password-167";
+
+                var chkUser = UserManager.Create(user, userPWD);
+
+                //Add default User to Role Admin   
+                if (chkUser.Succeeded)
+                {
+                    var result1 = UserManager.AddToRole(user.Id, "Admin");
+                }
+
+            }
+        }
     }
-}   
+}
+    

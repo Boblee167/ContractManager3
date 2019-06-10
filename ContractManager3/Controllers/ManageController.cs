@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ContractManager3.Controllers
 {
+
     [Authorize]
     public class ManageController : Controller
     {

@@ -83,18 +83,4 @@ namespace ContractManager3.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
-
-    public class RoleViewModel
-    {
-        public RoleViewModel(ApplicationRole role)
-
-        {
-            Id = role.Id;
-            Name = role.Name;
-        }
-        public string Id { get; set; }
-
-        public string Name { get; set; }
-    }
-
 }

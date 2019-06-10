@@ -51,7 +51,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Supplier_ID,SupplierNumber,SupplierName,SupplierAddress,SupplierCounty,SupplierContact,SupplierEMail")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "Supplier_ID,SupplierNumber,SupplierName,SupplierAddress,SupplierCounty,SupplierContact,SupplierEMail")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Supplier_ID,SupplierNumber,SupplierName,SupplierAddress,SupplierCounty,SupplierContact,SupplierEMail")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "Supplier_ID,SupplierNumber,SupplierName,SupplierAddress,SupplierCounty,SupplierContact,SupplierEMail")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {

@@ -98,6 +98,9 @@
     <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
       <Private>True</Private>
@@ -130,6 +133,12 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Owin.5.2.7\lib\net45\System.Web.Http.Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
@@ -216,6 +225,30 @@
     <Compile Include="Migrations\201905192046171_Initial.Designer.cs">
       <DependentUpon>201905192046171_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905231922287_Initial1.cs" />
+    <Compile Include="Migrations\201905231922287_Initial1.Designer.cs">
+      <DependentUpon>201905231922287_Initial1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905231929392_Version3.cs" />
+    <Compile Include="Migrations\201905231929392_Version3.Designer.cs">
+      <DependentUpon>201905231929392_Version3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906041027595_AddAdminUser.cs" />
+    <Compile Include="Migrations\201906041027595_AddAdminUser.Designer.cs">
+      <DependentUpon>201906041027595_AddAdminUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091410519_ModelChange.cs" />
+    <Compile Include="Migrations\201906091410519_ModelChange.Designer.cs">
+      <DependentUpon>201906091410519_ModelChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091533086_updatenav.cs" />
+    <Compile Include="Migrations\201906091533086_updatenav.Designer.cs">
+      <DependentUpon>201906091533086_updatenav.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906091809447_updaterolemodel.cs" />
+    <Compile Include="Migrations\201906091809447_updaterolemodel.Designer.cs">
+      <DependentUpon>201906091809447_updaterolemodel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContractDetail.cs" />
@@ -224,10 +257,8 @@
     <Compile Include="Models\IDeploymentsContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Property.cs" />
+    <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\Supplier.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\OAuthAppProvider.cs" />
     <Compile Include="Services\AuthMessageSenderOptions.cs" />
@@ -345,6 +376,16 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Resources\Admin.png" />
+    <Content Include="Resources\AMD View.jpg" />
+    <Content Include="Resources\AMD.jpg" />
+    <Content Include="Resources\Balbriggan.jpg" />
+    <Content Include="Resources\Clondalkin.jpg" />
+    <Content Include="Resources\College Road sligo.jpg" />
+    <Content Include="Resources\Cork Abbeycourt.jpg" />
+    <Content Include="Resources\harp1_.gif" />
+    <Content Include="Resources\Longford Intreo.jpg" />
+    <Content Include="Resources\Tallaght.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -469,9 +510,13 @@
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Role\Details.cshtml" />
     <Content Include="Views\Role\Delete.cshtml" />
+    <Content Include="Views\Home\AdminView.cshtml" />
+    <Content Include="Views\Home\DeptView.cshtml" />
+    <Content Include="Views\Home\SupplierView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -485,6 +530,24 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201905192046171_Initial.resx">
       <DependentUpon>201905192046171_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905231922287_Initial1.resx">
+      <DependentUpon>201905231922287_Initial1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905231929392_Version3.resx">
+      <DependentUpon>201905231929392_Version3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906041027595_AddAdminUser.resx">
+      <DependentUpon>201906041027595_AddAdminUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091410519_ModelChange.resx">
+      <DependentUpon>201906091410519_ModelChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091533086_updatenav.resx">
+      <DependentUpon>201906091533086_updatenav.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906091809447_updaterolemodel.resx">
+      <DependentUpon>201906091809447_updaterolemodel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

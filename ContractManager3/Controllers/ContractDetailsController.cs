@@ -8,7 +8,7 @@ namespace ContractManager3.Controllers
 {
     public class ContractDetailController : Controller
     {
-        //private ApplicationDbContext db = new ApplicationDbContext();
+        //private interface context
         private IDeploymentsContext db = new ApplicationDbContext();
 
         public ContractDetailController() { }
@@ -53,7 +53,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Contract_ID,ContractStartDate,ContractFinishDate,ContractExtensionsAvailable,DurationContactExtension,Servicetype,PriceDescription,Price,VatRate,PriceUpdatedate,Supplier_ID")] ContractDetail contractDetail)
+        public ActionResult Create([Bind(Include = "Contract_ID,ContractStartDate,ContractFinishDate,ContractExtensionsAvailable,DurationContactExtension,Servicetype,PriceDescription,Price,VatRate,PriceUpdatedate,Supplier_ID")] ContractDetail contractDetail)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace ContractManager3.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Contract_ID,ContractStartDate,ContractFinishDate,ContractExtensionsAvailable,DurationContactExtension,Servicetype,PriceDescription,Price,VatRate,PriceUpdatedate,Supplier_ID")] ContractDetail contractDetail)
+        public ActionResult Edit([Bind(Include = "Contract_ID,ContractStartDate,ContractFinishDate,ContractExtensionsAvailable,DurationContactExtension,Servicetype,PriceDescription,Price,VatRate,PriceUpdatedate,Supplier_ID")] ContractDetail contractDetail)
         {
             if (ModelState.IsValid)
             {
